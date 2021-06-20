@@ -1,3 +1,7 @@
+
+// Codigo para sumobot
+
+// -------------------------------------------------------------------------- Librerías
 #include <NintendoExtensionCtrl.h>
 #include <DRV8833.h>
 #include "LedControl.h"
@@ -7,6 +11,7 @@
 #include <Adafruit_SSD1306.h>
 
 
+// -------------------------------------------------------------------------- definiciones
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
 
@@ -18,13 +23,16 @@
 #define OLED_RESET     4 // Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 
+
+// -------------------------------------------------------------------------- Objetos/variables
 DRV8833 driver = DRV8833();
 LedControl lc=LedControl(4,8,7,1);
 const int inputA1 = 6, inputA2 = 9, inputB1 = 10, inputB2 = 11;
 ClassicController classic;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-byte feliz[8]= {
+byte feliz[8]= 
+{
   B00111100,
   B01000010,
   B10100101,
@@ -34,7 +42,8 @@ byte feliz[8]= {
   B01000010,
   B00111100
 };
-byte triste[8]= {
+byte triste[8]= 
+{
   B00111100,
   B01000010,
   B10100101,
@@ -44,7 +53,8 @@ byte triste[8]= {
   B01000010,
   B00111100
 };
-byte serio[8]= {
+byte serio[8]= 
+{
   B00111100,
   B01000010,
   B10100101,
@@ -54,7 +64,8 @@ byte serio[8]= {
   B01000010,
   B00111100
 };
-byte corazon[8]= {
+byte corazon[8]= 
+{
   B00000000,
   B01100110,
   B11111111,
@@ -65,6 +76,7 @@ byte corazon[8]= {
   B00000000
 };
 
+// -------------------------------------------------------------------------- Setup
 void setup() 
 {
   Serial.begin(115200);
@@ -107,6 +119,8 @@ void setup()
    
 }
 
+
+// -------------------------------------------------------------------------- loop
 void loop() 
 {
   boolean success = classic.update();
@@ -149,8 +163,9 @@ void loop()
   
 }
 
-
-void sinmovi(){
+// -------------------------------------------------------------------------- sinmovi
+void sinmovi()
+{
   driver.motorAStop();
   driver.motorBStop();
   for (int i = 0; i < 8; i++)
@@ -160,7 +175,9 @@ void sinmovi(){
   
 }
 
-void adelante(){
+// -------------------------------------------------------------------------- adelante
+void adelante()
+{
   driver.motorAReverse();
   driver.motorBReverse();
   for (int i = 0; i < 8; i++)
@@ -168,7 +185,10 @@ void adelante(){
     lc.setRow(0,i,feliz[i]);
   }
 }
-void atras(){
+
+// -------------------------------------------------------------------------- atras
+void atras()
+{
   driver.motorAForward();
   driver.motorBForward();
   for (int i = 0; i < 8; i++)
@@ -176,7 +196,10 @@ void atras(){
     lc.setRow(0,i,triste[i]);
   }
 }
-void derecha(){
+
+// -------------------------------------------------------------------------- derecha
+void derecha()
+{
   driver.motorBStop();
   driver.motorAReverse();
   for (int i = 0; i < 8; i++)
@@ -184,7 +207,10 @@ void derecha(){
     lc.setRow(0,i,serio[i]);
   }
 }
-void izquierda(){
+
+// -------------------------------------------------------------------------- izquiereda
+void izquierda()
+{
   driver.motorBReverse();
   driver.motorAStop();
   for (int i = 0; i < 8; i++)
@@ -192,14 +218,20 @@ void izquierda(){
     lc.setRow(0,i,serio[i]);
   }
 }
-void a(){
+
+// -------------------------------------------------------------------------- a
+void a()
+{
   for (int i = 0; i < 8; i++)
   {
     lc.setRow(0,i,corazon[i]);
   }
   delay(1000);
 }
-void b(){
+
+// -------------------------------------------------------------------------- b
+void b()
+{
   for (int i = 0; i < 8; i++)
   {
     lc.setRow(0,i,triste[i]);
