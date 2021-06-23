@@ -10,6 +10,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Servo.h> 
+#include "caras.h"
 
 
 // -------------------------------------------------------------------------- definiciones
@@ -44,111 +45,6 @@ boolean padLeft = classic.dpadLeft();
   
 boolean aButton = classic.buttonA();
 boolean bButton = classic.buttonB();
-
-byte feliz[8]= 
-{
-  B00111100,
-  B01000010,
-  B10100101,
-  B10000001,
-  B10100101,
-  B10011001,
-  B01000010,
-  B00111100
-};
-byte triste[8]= 
-{
-  B00111100,
-  B01000010,
-  B10100101,
-  B10000001,
-  B10011001,
-  B10100101,
-  B01000010,
-  B00111100
-};
-byte serio[8]= 
-{
-  B00111100,
-  B01000010,
-  B10100101,
-  B10000001,
-  B10000001,
-  B10111101,
-  B01000010,
-  B00111100
-};
-byte corazon[8]= 
-{
-  B00000000,
-  B01100110,
-  B11111111,
-  B11111111,
-  B01111110,
-  B00111100,
-  B00011000,
-  B00000000
-};
-
-byte boca1[8]= 
-{
-  B00000000,
-  B00000000,
-  B01111110,
-  B11111111,
-  B11111111,
-  B01111110,
-  B00000000,
-  B00000000
-};
-
-byte boca2[8]= 
-{
-  B00000000,
-  B00000000,
-  B00000000,
-  B01111110,
-  B01111110,
-  B00000000,
-  B00000000,
-  B00000000
-};
-
-byte boca3[8]= 
-{
-  B00000000,
-  B00000000,
-  B00000000,
-  B01010101,
-  B10101010,
-  B00000000,
-  B00000000,
-  B00000000
-};
-
-byte boca4[8]= 
-{
-  B00000000,
-  B00000000,
-  B00000000,
-  B11111111,
-  B00100001,
-  B00010010,
-  B00001100,
-  B00000000
-};
-
-byte boca5[8]= 
-{
-  B00000000,
-  B00000000,
-  B00000000,
-  B11111111,
-  B10000100,
-  B01001000,
-  B00110000,
-  B00000000
-};
 
 // -------------------------------------------------------------------------- Setup
 void setup() 
@@ -213,7 +109,7 @@ void loop()
 {
 
  radioControl();
-
+ display.display();
   
 }
 
@@ -221,6 +117,10 @@ void loop()
 // -------------------------------------------------------------------------- auto
 void autonomo()
 {
+  display.setCursor (0,0); // x,y
+  display.println("             ");
+  display.setCursor (0,0); // x,y
+  display.println("Autonomo");
   
 }
 
@@ -229,9 +129,8 @@ void autonomo()
 void radioControl(void)
 {
   //display.setTextColor (WHITE);
-  //display.setCursor (0,24); // x,y
-  display.println("Radio control");
-  display.display();
+  display.setCursor (0,0); // x,y
+  display.println("Radio control:");
     
   success = classic.update();
   padUp = classic.dpadUp();
@@ -240,62 +139,57 @@ void radioControl(void)
   padLeft = classic.dpadLeft();
   
   aButton = classic.buttonA();
-  bButton = classic.buttonB(); 
+  bButton = classic.buttonB();
+
+  display.setCursor (0,10); 
+  display.print("  ");
+  display.setCursor (0,10);
 
     if(padUp==true || padDown==true || padRight==true || padLeft==true || aButton == true || bButton == true) //No hay movimiento
   {
-    if(padUp==true) //Para adelante
-  {
-    adelante();
-    display.setCursor (0,10); 
-    display.print("adelante");
-    display.display();
-  }
-  if(padDown==true) //Para atrás
-  {
-    atras();
-    display.setCursor (0,10); 
-    display.print("atras");
-    display.display();
-  }
-  if(padRight==true) //Para derecha
-  {
-    derecha();
-    display.setCursor (0,10); 
-    display.print("derecha");
-    display.display();
-  }
-  if(padLeft==true) //Para izquierda
-  {
-    izquierda();
-    display.setCursor (0,10); 
-    display.print("izquierda");
-    display.display();
-  }
-  
-  if(aButton==true) //A
-  {
-    a();
-    display.setCursor (0,10); 
-    display.print("A");
-    display.display();
-  }
-  
-  if(bButton==true) //B
-  {
-    b();
-    display.setCursor (0,10); 
-    display.print("B");
-    display.display();
-  }
-  }
-  
-  //else
-  {
-    sinmovi();
-    //display.println("stop");
-    //display.display();
-  }
+     if(padUp==true) //Para adelante
+      {
+        adelante();
+        display.print("¡");
+      }
+     
+     if(padDown==true) //Para atrás
+      {
+        atras();
+        display.print("!");
+      }
+    
+    if(padRight==true) //Para derecha
+      {
+        derecha();
+        display.print(">");
+      }
+    
+    if(padLeft==true) //Para izquierda
+    {
+      izquierda();
+      display.print("<");
+    }
+    
+    }
+    
+    else
+    {
+      sinmovi(); 
+      display.print("-");
+    }
+
+    if(aButton==true) //A
+    {
+      a();
+      display.print("A");
+    }
+    
+    if(bButton==true) //B
+    {
+      b();
+      display.print("B");
+    }
 }
 
 // -------------------------------------------------------------------------- sinmovi
