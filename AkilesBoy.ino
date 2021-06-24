@@ -128,7 +128,7 @@ void autonomo()
 // ------------------------------------------------------------------------ RF
 void radioControl(void)
 {
-  //display.setTextColor (WHITE);
+  display.setTextColor (WHITE);
   display.setCursor (0,0); // x,y
   display.println("Radio control:");
     
@@ -141,33 +141,38 @@ void radioControl(void)
   aButton = classic.buttonA();
   bButton = classic.buttonB();
 
-  display.setCursor (0,10); 
-  display.print("  ");
-  display.setCursor (0,10);
+  
+  display.setTextColor(WHITE); 
+  display.setCursor (0,10);  
 
     if(padUp==true || padDown==true || padRight==true || padLeft==true || aButton == true || bButton == true) //No hay movimiento
   {
+     
      if(padUp==true) //Para adelante
       {
         adelante();
-        display.print("¡");
+        display.setCursor (0,10);
+        display.print("W");
       }
      
      if(padDown==true) //Para atrás
       {
         atras();
-        display.print("!");
+        display.setCursor (0,10);
+        display.print("S");
       }
     
     if(padRight==true) //Para derecha
       {
         derecha();
+        display.setCursor (0,10);
         display.print(">");
       }
     
     if(padLeft==true) //Para izquierda
     {
       izquierda();
+      display.setCursor (0,10);
       display.print("<");
     }
     
@@ -176,18 +181,23 @@ void radioControl(void)
     else
     {
       sinmovi(); 
-      display.print("-");
+      display.setCursor (0,10);
+      display.setTextColor(BLACK); 
+      display.write(127); // Borrar
+      display.setTextColor(WHITE); 
     }
 
     if(aButton==true) //A
     {
       a();
+      display.setCursor (0,10);
       display.print("A");
     }
     
     if(bButton==true) //B
     {
       b();
+      display.setCursor (0,10);
       display.print("B");
     }
 }
